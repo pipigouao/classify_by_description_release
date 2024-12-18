@@ -1,12 +1,20 @@
 import os
-import openai
+# import openai
+from openai import OpenAI
+
 import json
 
 import itertools
 
 from descriptor_strings import stringtolist
 
-openai.api_key = None #FILL IN YOUR OWN HERE
+key = "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" #FILL IN YOUR OWN HERE
+client = OpenAI(
+  base_url="https://openrouter.ai/api/v1",
+#   api_key=getenv("OPENROUTER_API_KEY"),
+    api_key=key
+)
+
 
 
 def generate_prompt(category_name: str):
@@ -52,12 +60,21 @@ def obtain_descriptors_and_save(filename, class_list):
     
     
     # most efficient way is to partition all prompts into the max size that can be concurrently queried from the OpenAI API
-    responses = [openai.Completion.create(model="text-davinci-003",
-                                            prompt=prompt_partition,
-                                            temperature=0.,
-                                            max_tokens=100,
-                                            ) for prompt_partition in partition(prompts, 20)]
-    response_texts = [r["text"] for resp in responses for r in resp['choices']]
+    responses = []
+    for prompt_partition in partition(prompts, 20):
+        response = client.chat.completions.create(
+            model="openai/gpt-3.5-turbo",
+            messages=[
+                {
+                    "role": "user",
+                    "content": prompt_partition
+                }
+            ],
+            temperature=0.,
+            max_tokens=100,
+        )
+        responses.append(response)
+    response_texts = [choice.message.content for resp in responses for choice in resp.choices]
     descriptors_list = [stringtolist(response_text) for response_text in response_texts]
     descriptors = {cat: descr for cat, descr in zip(class_list, descriptors_list)}
 
@@ -68,4 +85,4 @@ def obtain_descriptors_and_save(filename, class_list):
         json.dump(descriptors, fp)
     
 
-# obtain_descriptors_and_save('example', ["bird", "dog", "cat"])
+obtain_descriptors_and_save('example', ["bird", "dog", "cat"])

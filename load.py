@@ -73,9 +73,9 @@ hparams['seed'] = 1
 # classes_to_load = openai_imagenet_classes
 hparams['descriptor_fname'] = None
 
-IMAGENET_DIR = '/proj/vondrick3/datasets/ImageNet/' # REPLACE THIS WITH YOUR OWN PATH
-IMAGENETV2_DIR = '/proj/vondrick/datasets/ImageNetV2/' # REPLACE THIS WITH YOUR OWN PATH
-CUB_DIR = '/proj/vondrick/datasets/Birds-200-2011/' # REPLACE THIS WITH YOUR OWN PATH
+IMAGENET_DIR = '/data/jyq/project/classify_by_description_release/datasets/ImageNet/' # REPLACE THIS WITH YOUR OWN PATH
+IMAGENETV2_DIR = '/data/jyq/project/classify_by_description_release/datasets/ImageNetV2/' # REPLACE THIS WITH YOUR OWN PATH
+CUB_DIR = '/data/jyq/project/classify_by_description_release/datasets/Birds-200-2011/' # REPLACE THIS WITH YOUR OWN PATH
 EUROSAT_DIR = ''
 FOOD101_DIR = ''
 PETS_DIR = ''

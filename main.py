@@ -24,11 +24,11 @@ label_encodings = compute_label_encodings(model)
 
 
 print("Evaluating...")
-lang_accuracy_metric = torchmetrics.Accuracy().to(device)
-lang_accuracy_metric_top5 = torchmetrics.Accuracy(top_k=5).to(device)
+lang_accuracy_metric = torchmetrics.Accuracy(task="multiclass", num_classes=200).to(device)
+lang_accuracy_metric_top5 = torchmetrics.Accuracy(task="multiclass", num_classes=200, top_k=5).to(device)
 
-clip_accuracy_metric = torchmetrics.Accuracy().to(device)
-clip_accuracy_metric_top5 = torchmetrics.Accuracy(top_k=5).to(device)
+clip_accuracy_metric = torchmetrics.Accuracy(task="multiclass", num_classes=200).to(device)
+clip_accuracy_metric_top5 = torchmetrics.Accuracy(task="multiclass", num_classes=200, top_k=5).to(device)
 
 for batch_number, batch in enumerate(tqdm(dataloader)):
     images, labels = batch
